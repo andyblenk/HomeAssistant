@@ -11,7 +11,7 @@ blueprint:
           domain: switch
           multiple: true
     toggle_switch:
-      name: "Manueller Schalter"
+      name: "Manueller Schalter (optional)"
       description: "Schalter, um das Licht unabhängig von Bewegung zu toggeln"
       default: []
       selector:
@@ -112,8 +112,6 @@ action:
 
       # Manueller Schalter wurde gedrückt → Licht toggeln
       - conditions:
-          - condition: template
-            value_template: "{{ !input toggle_switch != '' }}"
           - condition: state
             entity_id: !input toggle_switch
             state: "on"
