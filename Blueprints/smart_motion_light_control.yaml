@@ -1,6 +1,6 @@
 blueprint:
-  name: "Garage Licht bei Bewegung"
-  description: "Schaltet das Garagenlicht basierend auf Bewegung und Lichtverhältnissen ein."
+  name: "Smarte Lichtsteuerung bei Bewegung"
+  description: "Schaltet das Licht basierend auf Bewegung und Lichtverhältnissen ein."
   domain: automation
   input:
     motion_sensors:
@@ -12,7 +12,7 @@ blueprint:
           multiple: true
     light_switch:
       name: "Licht-Schalter"
-      description: "Schalter für das Garagenlicht"
+      description: "Schalter für das Licht"
       selector:
         entity:
           domain: switch
@@ -39,6 +39,7 @@ blueprint:
         select:
           options:
             - "an"
+            - "aus"
             - "auto"
     off_timer:
       name: "Zeit bis Ausschalten (Sekunden)"
