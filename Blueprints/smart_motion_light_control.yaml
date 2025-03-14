@@ -117,9 +117,13 @@ action:
           - condition: state
             entity_id: !input light_mode
             state: !input auto_state
-          - condition: numeric_state
-            entity_id: !input lux_sensor
-            below: !input lux_threshold
+          - and: # lux nur wenn Licht aus ist, da sonst das Licht die Leuchtquelle war.
+            - condition: numeric_state
+              entity_id: !input lux_sensor
+              below: !input lux_threshold
+            - condition: state
+              entity_id: !input light_switch
+              state: "off"
           - condition: state
             entity_id: !input motion_sensors
             state: "on"
