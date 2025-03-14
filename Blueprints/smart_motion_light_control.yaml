@@ -17,7 +17,6 @@ blueprint:
       selector:
         entity:
           domain: switch     
-          multiple: true
     motion_sensors:
       name: "Bewegungssensoren"
       description: "Liste der Bewegungssensoren"
