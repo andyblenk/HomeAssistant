@@ -1,0 +1,69 @@
+blueprint:
+  name: "Garage Licht bei Bewegung"
+  description: "Schaltet das Garagenlicht basierend auf Bewegung und Lichtverhältnissen ein."
+  domain: automation
+  input:
+    motion_sensors:
+      name: "Bewegungssensoren"
+      description: "Liste der Bewegungssensoren"
+      selector:
+        entity:
+          domain: binary_sensor
+          multiple: true
+    light_switch:
+      name: "Licht-Schalter"
+      description: "Schalter für das Garagenlicht"
+      selector:
+        entity:
+          domain: switch
+    lux_sensor:
+      name: "Helligkeitssensor"
+      description: "Sensor für die Umgebungshelligkeit"
+      selector:
+        entity:
+          domain: sensor
+    lux_threshold:
+      name: "Helligkeitsgrenze"
+      description: "Ab welcher Helligkeit (in Lux) das Licht nicht mehr angeht"
+      default: 2000
+      selector:
+        number:
+          min: 0
+          max: 10000
+          step: 10
+          unit_of_measurement: "lx"
+    light_mode:
+      name: "Lichtmodus"
+      description: "Modus des Lichts (immer an oder automatisch)"
+      selector:
+        select:
+          options:
+            - "an"
+            - "auto"
+    off_timer:
+      name: "Zeit bis Ausschalten (Sekunden)"
+      description: "Dauer, nach der das Licht ausgeschaltet wird, falls keine Bewegung erkannt wird."
+      default: 30
+      selector:
+        number:
+          min: 10
+          max: 600
+          step: 5
+          unit_of_measurement: "s"
+
+mode: queued
+max: 10
+
+trigger:
+  - platform: state
+    entity_id: !input motion_sensors
+    to: "on"
+  - platform: state
+    entity_id: timer.garage_licht
+    to: "idle"
+
+condition: []
+
+action:
+  - choose:
+     
