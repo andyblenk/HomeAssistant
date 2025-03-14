@@ -10,14 +10,6 @@ blueprint:
         entity:
           domain: switch
           multiple: true
-    toggle_switch:
-      name: "Manueller Schalter (optional)"
-      description: "Schalter, um das Licht unabhängig von Bewegung zu toggeln"
-      default: []
-      selector:
-        entity:
-          domain: switch   
-          multiple: true  
     motion_sensors:
       name: "Bewegungssensoren"
       description: "Liste der Bewegungssensoren"
@@ -110,28 +102,6 @@ condition: []
 action:
   - choose:
 
-      # Manueller Schalter wurde gedrückt → Licht toggeln
-      - conditions:
-          - condition: state
-            entity_id: !input toggle_switch
-            state: "on"
-        sequence:
-          - service: switch.toggle
-            target:
-              entity_id: !input light_switch
-          
-          # Prüfen, ob das Licht jetzt an ist
-          - condition: state
-            entity_id: !input light_switch
-            state: "on"
-
-          # Falls ja, Timer starten
-          - service: timer.start
-            target:
-              entity_id: !input timer_entity
-            data:
-              duration: !input off_timer_switch
-              
       # if always-on then just turn on the lights
       - conditions:
           - condition: state
