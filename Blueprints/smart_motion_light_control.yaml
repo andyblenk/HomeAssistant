@@ -4,8 +4,8 @@ blueprint:
   domain: automation
   input:
     light_switch:
-      name: "Licht"
-      description: "Licht, das gesteuert werden soll"
+      name: "Lichter"
+      description: "Lichter, die gesteuert werden sollen"
       selector:
         entity:
           domain: switch
@@ -39,24 +39,24 @@ blueprint:
       selector:
         entity:
           domain: input_select
-    on_state:
-      name: "Modus für 'immer-an'"
-      description: "Definiere den Status für den 'immer-an' Modus"
-      selector:
-        text: {}
-      default: "on"
-    off_state:
-      name: "Modus für 'immer-aus'"
-      description: "Definiere den Status für den 'immer-aus' Modus"
-      selector:
-        text: {}
-      default: "off"
     auto_state:
       name: "Modus für 'auto'"
       description: "Definiere den Status für den 'auto' Modus"
       selector:
         text: {}
       default: "auto"
+    on_state:
+      name: "Modus für 'immer-an'"
+      description: "Definiere den Status für den 'immer-an' Modus"
+      selector:
+        text: {}
+      default: "an"
+    off_state:
+      name: "Modus für 'immer-aus'"
+      description: "Definiere den Status für den 'immer-aus' Modus"
+      selector:
+        text: {}
+      default: "aus"
     off_timer:
       name: "Zeit bis Ausschalten (Sekunden)"
       description: "Dauer, nach der das Licht ausgeschaltet wird, falls keine Bewegung erkannt wird."
