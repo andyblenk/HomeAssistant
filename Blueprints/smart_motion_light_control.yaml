@@ -16,7 +16,8 @@ blueprint:
       default: ""
       selector:
         entity:
-          domain: switch     
+          domain: switch   
+          multiple: false  
     motion_sensors:
       name: "Bewegungssensoren"
       description: "Liste der Bewegungssensoren"
