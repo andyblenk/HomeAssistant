@@ -122,7 +122,8 @@ action:
             below: !input lux_threshold
           - condition: template
             value_template: >
-              {{ expand(!input motion_sensors) | selectattr('state', 'eq', 'on') | list | length > 0 }}          
+              {% set sensors = expand('!input motion_sensors') %}
+              {{ sensors | selectattr('state', 'eq', 'on') | list | length > 0 }}   
         sequence:
           - service: switch.turn_on
             target:
