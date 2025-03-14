@@ -85,6 +85,8 @@ condition: []
 
 action:
   - choose:
+
+      # if always-on then just turn on the lights
       - conditions:
           - condition: state
             entity_id: !input light_mode
@@ -94,6 +96,7 @@ action:
             target:
               entity_id: !input light_switch
 
+      # if 'auto' then check lux and motion -> then turn on
       - conditions:
           - condition: state
             entity_id: !input light_mode
@@ -114,20 +117,8 @@ action:
             data:
               duration: !input off_timer
 
-  - choose:
-      - conditions:
-          - condition: state
-            entity_id: !input light_mode
-            state: !input off_state
-        sequence:
-          - service: switch.turn_off
-            target:
-              entity_id: !input light_switch
-      - conditions:
-          - condition: state
-            entity_id: timer.bewegung_licht_timer
-            state: "idle"
-        sequence:
-          - service: switch.turn_off
-            target:
-              entity_id: !input light_switch
+    # turn off if nothing else matches
+    default:
+      - service: switch.turn_off
+        target:
+          entity_id: !input light_switch
