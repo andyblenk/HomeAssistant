@@ -10,6 +10,14 @@ blueprint:
         entity:
           domain: switch
           multiple: true
+    toggle_switch:
+      name: "Manueller Schalter"
+      description: "Schalter, um das Licht unabhängig von Bewegung zu toggeln"
+      selector:
+        entity:
+          domain: switch     
+          multiple: true
+          allow_empty: true     
     motion_sensors:
       name: "Bewegungssensoren"
       description: "Liste der Bewegungssensoren"
@@ -34,25 +42,25 @@ blueprint:
           step: 10
           unit_of_measurement: "lx"
     light_mode:
-      name: "Licht-Modus"
+      name: "Licht-Modus Entität"
       description: "Entity, welche den Licht-Modus ('immer an', 'immer aus', 'auto') angibt."
       selector:
         entity:
           domain: input_select
     auto_state:
-      name: "Modus für 'auto'"
+      name: "Licht-Modus für 'auto'"
       description: "Definiere den Status für den 'auto' Modus"
       selector:
         text: {}
       default: "auto"
     on_state:
-      name: "Modus für 'immer-an'"
+      name: "Licht-Modus für 'immer-an'"
       description: "Definiere den Status für den 'immer-an' Modus"
       selector:
         text: {}
       default: "an"
     off_state:
-      name: "Modus für 'immer-aus'"
+      name: "Licht-Modus für 'immer-aus'"
       description: "Definiere den Status für den 'immer-aus' Modus"
       selector:
         text: {}
@@ -67,6 +75,16 @@ blueprint:
       name: "Zeit bis Ausschalten (Sekunden)"
       description: "Dauer, nach der das Licht ausgeschaltet wird, falls keine Bewegung erkannt wird."
       default: 30
+      selector:
+        number:
+          min: 10
+          max: 600
+          step: 5
+          unit_of_measurement: "s"
+    off_timer_switch:
+      name: "Zeit bis Ausschalten (Sekunden) wenn Schalter gedrückt wurde"
+      description: "Dauer, nach der das Licht ausgeschaltet wird, falls keine Bewegung erkannt wird."
+      default: 120
       selector:
         number:
           min: 10
@@ -92,6 +110,30 @@ condition: []
 action:
   - choose:
 
+      # Manueller Schalter wurde gedrückt → Licht toggeln
+      - conditions:
+          - condition: template
+            value_template: "{{ !input toggle_switch != '' }}"
+          - condition: state
+            entity_id: !input toggle_switch
+            state: "on"
+        sequence:
+          - service: switch.toggle
+            target:
+              entity_id: !input light_switch
+          
+          # Prüfen, ob das Licht jetzt an ist
+          - condition: state
+            entity_id: !input light_switch
+            state: "on"
+
+          # Falls ja, Timer starten
+          - service: timer.start
+            target:
+              entity_id: !input timer_entity
+            data:
+              duration: !input off_timer_switch
+              
       # if always-on then just turn on the lights
       - conditions:
           - condition: state
