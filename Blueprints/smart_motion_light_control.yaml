@@ -45,7 +45,7 @@ blueprint:
         text: {}
       default: "on"
     off_state:
-      name: "Modus für 'immer-aus'""
+      name: "Modus für 'immer-aus'"
       description: "Definiere den Status für den 'immer-aus' Modus"
       selector:
         text: {}
