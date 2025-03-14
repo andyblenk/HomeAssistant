@@ -120,9 +120,9 @@ action:
           - condition: numeric_state
             entity_id: !input lux_sensor
             below: !input lux_threshold
-          - condition: state
-            entity_id: !input motion_sensors
-            state: "on"
+          - condition: template
+            value_template: >
+              {{ expand(!input motion_sensors) | selectattr('state', 'eq', 'on') | list | length > 0 }}          
         sequence:
           - service: switch.turn_on
             target:
