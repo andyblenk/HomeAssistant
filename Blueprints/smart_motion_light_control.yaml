@@ -73,16 +73,7 @@ blueprint:
           max: 600
           step: 5
           unit_of_measurement: "s"
-    off_timer_switch:
-      name: "Zeit bis Ausschalten (Sekunden) wenn Schalter gedrückt wurde"
-      description: "Dauer, nach der das Licht ausgeschaltet wird, falls keine Bewegung erkannt wird."
-      default: 120
-      selector:
-        number:
-          min: 10
-          max: 600
-          step: 5
-          unit_of_measurement: "s"
+
 
 mode: queued
 max: 10
