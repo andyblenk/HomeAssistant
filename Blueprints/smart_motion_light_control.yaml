@@ -3,6 +3,13 @@ blueprint:
   description: "Schaltet das Licht basierend auf Bewegung und Lichtverhältnissen ein."
   domain: automation
   input:
+    light_switch:
+      name: "Licht"
+      description: "Licht, das gesteuert werden soll"
+      selector:
+        entity:
+          domain: switch
+          multiple: true
     motion_sensors:
       name: "Bewegungssensoren"
       description: "Liste der Bewegungssensoren"
@@ -10,12 +17,6 @@ blueprint:
         entity:
           domain: binary_sensor
           multiple: true
-    light_switch:
-      name: "Licht-Schalter"
-      description: "Schalter für das Licht"
-      selector:
-        entity:
-          domain: switch
     lux_sensor:
       name: "Helligkeitssensor"
       description: "Sensor für die Umgebungshelligkeit"
@@ -34,7 +35,7 @@ blueprint:
           unit_of_measurement: "lx"
     light_mode:
       name: "Licht-Modus"
-      description: "Entity, welche den Licht-Modus (immer an, immer aus, auto) angibt."
+      description: "Entity, welche den Licht-Modus ('immer an', 'immer aus', 'auto') angibt."
       selector:
         entity:
           domain: input_select
