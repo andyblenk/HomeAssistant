@@ -57,6 +57,12 @@ blueprint:
       selector:
         text: {}
       default: "aus"
+    timer_entity:
+      name: "Timer für das Licht"
+      description: "Wähle die Timer-Entität aus, die für das automatische Ausschalten genutzt werden soll"
+      selector:
+        entity:
+          domain: timer
     off_timer:
       name: "Zeit bis Ausschalten (Sekunden)"
       description: "Dauer, nach der das Licht ausgeschaltet wird, falls keine Bewegung erkannt wird."
@@ -76,7 +82,7 @@ trigger:
     entity_id: !input motion_sensors
     to: "on"
   - platform: state
-    entity_id: timer.bewegung_licht_timer
+    entity_id: !input timer_entity
     to: "idle"
   - platform: state
     entity_id: !input light_mode
@@ -113,7 +119,7 @@ action:
               entity_id: !input light_switch
           - service: timer.start
             target:
-              entity_id: timer.bewegung_licht_timer
+              entity_id: !input timer_entity
             data:
               duration: !input off_timer
 
