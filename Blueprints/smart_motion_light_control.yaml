@@ -13,7 +13,6 @@ blueprint:
     toggle_switch:
       name: "Manueller Schalter"
       description: "Schalter, um das Licht unabhängig von Bewegung zu toggeln"
-      default: ""
       selector:
         entity:
           domain: switch   
