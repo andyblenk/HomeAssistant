@@ -115,6 +115,9 @@ action:
             - condition: state
               entity_id: !input light_switch
               state: "on"
+            - condition: state  
+              entity_id: !input timer_entity
+              state: "active"
           - condition: state
             entity_id: !input motion_sensors
             state: "on"
@@ -131,6 +134,17 @@ action:
 
     # turn off if nothing else matches
     default:
+      - choose:
+          - conditions:
+              - condition: state
+                entity_id: !input light_switch
+                state: "on"
+            sequence:
+              - service: timer.start
+                target:
+                  entity_id: !input timer_entity
+                data:
+                  duration: 60 # so eine Art Abklingzeit in der die Lux dann nicht berücksichtigt werden.
       - service: switch.turn_off
         target:
           entity_id: !input light_switch
