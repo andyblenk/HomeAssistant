@@ -15,7 +15,9 @@ blueprint:
       description: "Liste der Bewegungssensoren"
       selector:
         entity:
-          domain: binary_sensor
+          domain:
+            - binary_sensor
+            - switch
           multiple: true
     lux_sensor:
       name: "Helligkeitssensor"
