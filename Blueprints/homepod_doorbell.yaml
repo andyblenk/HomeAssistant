@@ -31,8 +31,8 @@ blueprint:
           unit_of_measurement: "Lautstärke"
     ringtone:
       name: Klingelton
-      description: "Pfad zur MP3-Datei für den Klingelton. Standard: /media/doorbell.mp3"
-      default: "/media/doorbell.mp3"
+      description: "Pfad zur MP3-Datei für den Klingelton."
+      default: "/config/audio/doorbell-2.mp3"
       selector:
         text:
 
