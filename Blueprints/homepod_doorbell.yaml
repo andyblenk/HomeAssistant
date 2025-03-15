@@ -12,12 +12,12 @@ blueprint:
             - binary_sensor
             - device_tracker
             - sensor
-    media_players:
+    homepods:
       name: HomePods oder AirPlay-Lautsprecher
       description: "Die HomePods, die den Klingelton abspielen sollen."
       selector:
-        entity:
-          domain: media_player
+        device:
+          integration: homekit
           multiple: true
     volume:
       name: Lautstärke
@@ -31,8 +31,8 @@ blueprint:
           unit_of_measurement: "Lautstärke"
     ringtone:
       name: Klingelton
-      description: "Pfad zur MP3-Datei für den Klingelton. Standard: /media/doorbell.mp3"
-      default: "/media/doorbell.mp3"
+      description: "Pfad zur MP3-Datei für den Klingelton. Standard: /config/audio/doorbell-2.mp3"
+      default: "/config/audio/doorbell-2.mp3"
       selector:
         text:
 
@@ -45,14 +45,14 @@ trigger:
 
 action:
   - repeat:
-      for_each: !input media_players
+      for_each: !input homepods
       sequence:
         - service: media_player.volume_set
           data:
-            entity_id: "{{ repeat.item }}"
+            entity_id: "{{ device_entities(repeat.item) | select('search', 'media_player') | list | first }}"
             volume_level: !input volume
         - service: media_player.play_media
           data:
-            entity_id: "{{ repeat.item }}"
+            entity_id: "{{ device_entities(repeat.item) | select('search', 'media_player') | list | first }}"
             media_content_id: !input ringtone
             media_content_type: "music"
