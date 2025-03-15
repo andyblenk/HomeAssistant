@@ -45,11 +45,6 @@ trigger:
     to: "on"
 
 action:
-  - service: media_player.volume_set
-    target:
-      entity_id: !input media_players
-    data:
-      volume_level: !input volume
   - service: media_player.play_media
     target:
       entity_id: !input media_players
